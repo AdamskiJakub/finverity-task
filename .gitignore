@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+dist/
+
+# AI agent config directories
+.agents/
+.claude/
+.windsurf/
+
+# Local planning docs (not part of the submission)
+plans/

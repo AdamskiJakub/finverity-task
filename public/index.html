@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capacity Service — Demo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Program Capacity & Invoice Reservation</h1>
+        <p class="subtitle">Fintech capacity management demo</p>
+      </header>
+
+      <!-- Login (auto) -->
+      <section id="login-section" class="card">
+        <h2 id="login-heading">🔐 Authenticating...</h2>
+        <div id="login-status" class="status"></div>
+      </section>
+
+      <!-- Dashboard (hidden until login) -->
+      <section id="dashboard" class="hidden">
+        <!-- Capacity -->
+        <div class="card">
+          <h2>Program Capacity</h2>
+          <div class="form-row">
+            <select id="program-select" class="program-select">
+              <option value="prog_001">Demo Program (prog_001)</option>
+            </select>
+            <button id="get-capacity-btn" class="btn primary">Refresh</button>
+          </div>
+          <div id="capacity-display" class="capacity-grid hidden">
+            <div class="metric">
+              <span class="label">Total Limit</span>
+              <span id="total-limit" class="value">—</span>
+            </div>
+            <div class="metric">
+              <span class="label">Reserved</span>
+              <span id="reserved-amount" class="value">—</span>
+            </div>
+            <div class="metric metric-available">
+              <span class="label">Available</span>
+              <span id="available-amount" class="value highlight">—</span>
+            </div>
+            <div class="metric">
+              <span class="label">Currency</span>
+              <span id="currency" class="value">—</span>
+            </div>
+          </div>
+          <div id="capacity-status" class="status"></div>
+        </div>
+
+        <!-- Reserve -->
+        <div class="card">
+          <h2>Reserve Invoice</h2>
+          <div class="form-row">
+            <input
+              type="text"
+              id="invoice-id"
+              value="INV-001"
+              placeholder="Invoice ID"
+            />
+            <input
+              type="number"
+              id="amount"
+              value="500000"
+              placeholder="Amount (cents)"
+            />
+            <select id="currency-select">
+              <option value="USD" selected>USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="PLN">PLN</option>
+            </select>
+            <button id="reserve-btn" class="btn success">Reserve</button>
+          </div>
+          <div id="reserve-status" class="status"></div>
+        </div>
+
+        <!-- Active Reservations -->
+        <div class="card">
+          <h2>Active Reservations</h2>
+          <div class="form-row">
+            <button id="list-reservations-btn" class="btn primary">
+              Refresh List
+            </button>
+          </div>
+          <div id="reservations-list" class="reservations-list">
+            <p class="muted">
+              Click "Refresh List" to load active reservations
+            </p>
+          </div>
+          <div id="reservations-status" class="status"></div>
+        </div>
+
+        <!-- Release -->
+        <div class="card">
+          <h2>Release Reservation</h2>
+          <div class="form-row">
+            <input
+              type="text"
+              id="reservation-id"
+              placeholder="Reservation ID"
+            />
+            <button id="release-btn" class="btn warning">Release</button>
+          </div>
+          <div id="release-status" class="status"></div>
+        </div>
+
+        <!-- Logs -->
+        <div class="card">
+          <h2>Activity Log</h2>
+          <pre id="log" class="log-box">Waiting for actions...</pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
