@@ -279,7 +279,9 @@ Release a reservation (e.g., after invoice repayment).
 
 **Assumption**: Programs and reservations are denominated in the same currency. Exchange rates are provided by the treasury reconciliation message.
 
-**Trade-off**: No built-in FX engine. If a reservation comes in a different currency than the program, it will be rejected. In production, you'd want automatic conversion using a configurable FX rate source.
+**Implementation**: The API validates currency match at reservation time — if `dto.currency !== program.currency`, the request is rejected with a clear error message. Both `Program` and `Reservation` models store a `Currency` enum (USD, EUR, GBP, PLN).
+
+**Trade-off**: No built-in FX engine. Cross-currency reservations are rejected with `400 Currency mismatch`. In production, you'd want automatic conversion using a configurable FX rate source (e.g., Open Exchange Rates) and store the original invoice amount alongside the program-currency equivalent.
 
 ### Kafka Integration
 

@@ -35,9 +35,10 @@ export class ReservationService {
           totalLimit: number;
           reservedAmount: number;
           version: number;
+          currency: string;
         }>
       >(
-        Prisma.sql`SELECT id, "totalLimit", "reservedAmount", version FROM "Program" WHERE id = ${programId} FOR UPDATE`,
+        Prisma.sql`SELECT id, "totalLimit", "reservedAmount", version, currency FROM "Program" WHERE id = ${programId} FOR UPDATE`,
       );
 
       if (!program) {
@@ -57,6 +58,14 @@ export class ReservationService {
       if (existingReservation) {
         throw new ConflictException(
           `Invoice ${dto.invoiceId} already has an active reservation in program ${programId}`,
+        );
+      }
+
+      // Currency validation: invoice currency must match program currency
+      if (dto.currency !== program.currency) {
+        throw new BadRequestException(
+          `Currency mismatch: program ${programId} is denominated in ${program.currency}, ` +
+            `but reservation is in ${dto.currency}. Cross-currency reservations require an FX engine.`,
         );
       }
 

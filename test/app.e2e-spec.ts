@@ -143,6 +143,18 @@ describe('Capacity Service (E2E)', () => {
         .expect(409);
     });
 
+    it('POST /programs/:id/reservations - should reject currency mismatch', async () => {
+      await request(app.getHttpServer())
+        .post('/programs/e2e_test_prog/reservations')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          invoiceId: 'inv_wrong_currency',
+          amount: 100_00,
+          currency: 'EUR', // Program is in USD
+        })
+        .expect(400);
+    });
+
     it('POST /programs/:id/reservations - should reject insufficient capacity', async () => {
       await request(app.getHttpServer())
         .post('/programs/e2e_test_prog/reservations')
